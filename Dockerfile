@@ -16,15 +16,6 @@ COPY . .
 # Build the Go binary
 RUN go build -o app .
 
-# Use a lightweight image for the final artifact
-FROM alpine:latest
-
-# Set up a working directory
-WORKDIR /root/
-
-# Copy the binary from the builder stage
-COPY --from=builder /app/app .
-
 # Expose the port
 EXPOSE 8080
 
