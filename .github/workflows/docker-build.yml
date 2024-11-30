@@ -34,12 +34,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }} # Docker Hub username stored in GitHub Secrets
           password: ${{ secrets.DOCKER_PASSWORD }} # Docker Hub password stored in GitHub Secrets
 
-      # Build the Docker image
-      - name: Build Docker Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/my-go-app:latest .
-
-      # Push the Docker image to Docker Hub
-      - name: Push Docker Image
-        run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/my-go-app:latest
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ github.sha }}
