@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go binary
-RUN go build -o app .
+RUN orchestrion go build -o app .
 
 # Expose the port
 EXPOSE 8080
