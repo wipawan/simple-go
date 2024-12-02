@@ -13,6 +13,12 @@ RUN go mod download
 # Copy the source code
 COPY . .
 
+# Add GOPATH/bin to PATH persistently
+ENV PATH=$PATH:$(go env GOPATH)/bin
+
+# Verify PATH in a subsequent step
+RUN echo $PATH
+
 # Build the Go binary
 RUN orchestrion go build -o app .
 
