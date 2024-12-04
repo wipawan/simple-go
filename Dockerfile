@@ -13,13 +13,13 @@ RUN go mod download
 # Copy the source code
 COPY . .
 
-# Add GOPATH/bin to PATH persistently
-ENV PATH=$PATH:$(go env GOPATH)/bin
+RUN mkdir -p /usr/local/bin 
 
-# Verify PATH in a subsequent step
-RUN echo $PATH
+RUN GOBIN=/usr/local/bin go install github.com/DataDog/orchestrion@latest
 
 # Build the Go binary
+ENV GOFLAGS="${GOFLAGS} '-toolexec=/usr/local/bin/orchestrion toolexec'"
+
 RUN orchestrion go build -o app .
 
 # Expose the port
