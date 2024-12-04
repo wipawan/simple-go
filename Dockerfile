@@ -4,6 +4,8 @@ FROM golang:1.23 AS builder
 # Set the working directory
 WORKDIR /app
 
+COPY --from=datadog/serverless-init:1 /datadog-init /home/datadog-init
+
 # Copy Go modules manifests
 COPY go.mod go.sum ./
 
@@ -26,4 +28,6 @@ RUN go build -o app .
 EXPOSE 8080
 
 # Run the application
+ENTRYPOINT ["/app/datadog-init"]
+
 CMD ["./app"]
