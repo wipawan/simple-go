@@ -4,7 +4,7 @@ FROM golang:1.23 AS builder
 # Set the working directory
 WORKDIR /app
 
-COPY --from=datadog/serverless-init:1 /datadog-init /home/datadog-init
+COPY --from=datadog/serverless-init:1 /datadog-init /app/datadog-init
 
 # Copy Go modules manifests
 COPY go.mod go.sum ./
