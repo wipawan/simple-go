@@ -6,6 +6,8 @@ metadata:
     tags.datadoghq.com/env: staging
     tags.datadoghq.com/service: simple-orchestrion-go
     tags.datadoghq.com/version: 1.0.0
+  name: simple-orchestrion-go
+  namespace: default
 spec:
   template:
     metadata:
