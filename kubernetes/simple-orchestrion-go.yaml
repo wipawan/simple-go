@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2024-12-05T07:25:39Z"
+  generation: 1
+  labels:
+    app: simple-orchestrion-go
+    tags.datadoghq.com/env: staging
+    tags.datadoghq.com/service: simple-orchestrion-go
+    tags.datadoghq.com/version: 1.0.0
+  name: simple-orchestrion-go
+  namespace: default
+  resourceVersion: "70785841"
+  uid: cda6cab8-c4fa-45b2-bb5a-3353d38a9d2f
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: simple-orchestrion-go
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        admission.datadoghq.com/enabled: "true"
+        app: simple-orchestrion-go
+        tags.datadoghq.com/env: staging
+        tags.datadoghq.com/service: simple-orchestrion-go
+        tags.datadoghq.com/version: 1.0.0
+    spec:
+      containers:
+        - image: mmeeww/simple-go:0a61c08d4d4882f583b03b32d8b87365630190d1
+          imagePullPolicy: IfNotPresent
+          name: simple-go
+          env:
+            - name: DD_TRACE_DEBUG
+              value: "true"
+            - name: DD_DOGSTATSD_PORT
+              value: "8125"
+            - name: DD_AGENT_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: "2024-12-05T07:26:23Z"
+      lastUpdateTime: "2024-12-05T07:26:23Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2024-12-05T07:25:40Z"
+      lastUpdateTime: "2024-12-05T07:26:23Z"
+      message: ReplicaSet "simple-orchestrion-go-77d87bdd8c" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
