@@ -18,6 +18,10 @@ spec:
         tags.datadoghq.com/service: simple-orchestrion-go
         tags.datadoghq.com/version: 1.0.0
     spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: simple-orchestrion-go
       volumes:
         - hostPath:
             path: /var/run/datadog/
