@@ -115,6 +115,7 @@ func handlePostPosts(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(p)
 }
 
+//dd:span
 func handleGetPost(w http.ResponseWriter, r *http.Request, id int) {
 	postsMu.Lock()
 	defer postsMu.Unlock()
