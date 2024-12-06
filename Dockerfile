@@ -21,6 +21,7 @@ RUN GOBIN=/usr/local/bin go install github.com/DataDog/orchestrion@latest
 
 # Build the Go binary
 ENV GOFLAGS="${GOFLAGS} '-toolexec=/usr/local/bin/orchestrion toolexec'"
+ENV ORCHESTRION_LOG_LEVEL=DEBUG
 
 RUN go build -o app .
 
