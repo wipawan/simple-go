@@ -77,7 +77,7 @@ func handleGetPosts(w http.ResponseWriter, r *http.Request) {
 	for _, p := range posts {
 			ps = append(ps, p)
 	}
-
+	fmt.Println("Create a new post")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(ps)
 }
@@ -109,6 +109,7 @@ func handlePostPosts(w http.ResponseWriter, r *http.Request) {
 	nextID++
 	posts[p.ID] = p
 
+	fmt.Println("Get all posts")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(p)

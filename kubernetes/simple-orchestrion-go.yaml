@@ -22,26 +22,9 @@ spec:
         tags.datadoghq.com/service: simple-orchestrion-go
         tags.datadoghq.com/version: 1.0.0
     spec:
-      volumes:
-        - hostPath:
-            path: /var/run/datadog/
-          name: apmsocketpath
       containers:
-        - name: simple-go
+        - name: go
           image: mmeeww/simple-go:0a61c08d4d4882f583b03b32d8b87365630190d1
-          volumeMounts:
-            - name: apmsocketpath
-              mountPath: /var/run/datadog
           env:
-            - name: DD_ENV
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.labels['tags.datadoghq.com/env']
-            - name: DD_SERVICE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.labels['tags.datadoghq.com/service']
-            - name: DD_VERSION
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.labels['tags.datadoghq.com/version']
+            - name: DD_TRACE_DEBUG
+              value: "true"
