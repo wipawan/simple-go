@@ -31,3 +31,6 @@ EXPOSE 8080
 # ENTRYPOINT ["/app/datadog-init"]
 
 CMD ["./app"]
+
+# to run locally 
+# DD_ENV=staging DD_SERVICE=simple-orchestrion-go DD_VERSION=1.0.0 orchestrion go run . 
