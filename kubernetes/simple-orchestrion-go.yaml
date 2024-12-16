@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: go
-          image: mmeeww/simple-go:bd6c1329c96c8af9cccdac3d15fcee14ebf99a57
+          image: mmeeww/simple-go:431c27a5724cf63beff9d09a9843a2244e8f979b
           env:
             - name: DD_TRACE_DEBUG
               value: "true"
