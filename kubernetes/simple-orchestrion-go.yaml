@@ -21,9 +21,15 @@ spec:
         tags.datadoghq.com/env: staging
         tags.datadoghq.com/service: simple-orchestrion-go
         tags.datadoghq.com/version: 1.0.0
+      annotations:
+        ad.datadoghq.com/go-app.logs: '[{
+          "source": "go",
+          "service": "simple-orchestrion-go",
+          "env": "staging"
+        }]'
     spec:
       containers:
-        - name: go
+        - name: simple-orchestrion-go
           image: mmeeww/simple-go:431c27a5724cf63beff9d09a9843a2244e8f979b
           env:
             - name: DD_TRACE_DEBUG
