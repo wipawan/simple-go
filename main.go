@@ -4,10 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strconv"
 	"sync"
+
+	"github.com/sirupsen/logrus"
 )
 
 type Post struct {
@@ -19,11 +20,19 @@ var (
     posts   = make(map[int]Post)
     nextID  = 1
     postsMu sync.Mutex
+		log = logrus.New()
 )
 
 func main() {
 	http.HandleFunc("/posts", postsHandler)
 	http.HandleFunc("/posts/", postHandler)
+
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+	
+
+	// Add Datadog context log hook
+	//logrus.AddHook(&logrus.DDContextLogHook{}) 
+	log.Info("test logrus")
 
 	fmt.Println("Server is running at http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -77,7 +86,7 @@ func handleGetPosts(w http.ResponseWriter, r *http.Request) {
 	for _, p := range posts {
 			ps = append(ps, p)
 	}
-	fmt.Println("Create a new post")
+	log.Info("Create a new post")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(ps)
 }
@@ -109,7 +118,7 @@ func handlePostPosts(w http.ResponseWriter, r *http.Request) {
 	nextID++
 	posts[p.ID] = p
 
-	fmt.Println("Get all posts")
+	log.Info("Get all posts")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(p)
