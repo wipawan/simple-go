@@ -29,7 +29,6 @@ func main() {
 
 	logrus.SetFormatter(&logrus.JSONFormatter{})
 	
-
 	// Add Datadog context log hook
 	//logrus.AddHook(&logrus.DDContextLogHook{}) 
 	log.Info("test logrus")
@@ -67,6 +66,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleGetPosts(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	// This is the first time we're using the mutex.
 	// It essentially locks the server so that we can
 	// manipulate the posts map without worrying about
@@ -86,7 +86,7 @@ func handleGetPosts(w http.ResponseWriter, r *http.Request) {
 	for _, p := range posts {
 			ps = append(ps, p)
 	}
-	log.Info("Create a new post")
+	log.WithContext(ctx).Info("Create a new post")
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(ps)
 }
@@ -94,6 +94,7 @@ func handleGetPosts(w http.ResponseWriter, r *http.Request) {
 func handlePostPosts(w http.ResponseWriter, r *http.Request) {
 	var p Post
 
+	ctx := r.Context()
 	// This will read the entire body into a byte slice 
 	// i.e. ([]byte)
 	body, err := ioutil.ReadAll(r.Body)
@@ -118,7 +119,7 @@ func handlePostPosts(w http.ResponseWriter, r *http.Request) {
 	nextID++
 	posts[p.ID] = p
 
-	log.Info("Get all posts")
+	log.WithContext(ctx).Info("Get all posts")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(p)
